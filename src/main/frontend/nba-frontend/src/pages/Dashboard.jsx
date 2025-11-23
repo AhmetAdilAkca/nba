@@ -18,8 +18,24 @@ const Dashboard = () => {
           getStandings(),
           getRecentGames()
         ]);
-        setStandings(standingsData);
-        setGames(gamesData);
+
+        // Debug: log raw responses to help diagnose empty/invalid payloads
+        // eslint-disable-next-line no-console
+        console.log('Dashboard: standingsData=', standingsData);
+        // eslint-disable-next-line no-console
+        console.log('Dashboard: gamesData=', gamesData);
+
+        // Defensive assignment: ensure components always receive arrays
+        const normalizedStandings = Array.isArray(standingsData)
+          ? standingsData
+          : (standingsData && Array.isArray(standingsData.data) ? standingsData.data : []);
+
+        const normalizedGames = Array.isArray(gamesData)
+          ? gamesData
+          : (gamesData && Array.isArray(gamesData.data) ? gamesData.data : []);
+
+        setStandings(normalizedStandings);
+        setGames(normalizedGames);
       } catch (err) {
         setError('Failed to load dashboard data');
         console.error(err);
@@ -39,7 +55,23 @@ const Dashboard = () => {
   ];
 
   // Add unique ID for DataGrid if not present in data
-  const rows = standings.map((team, index) => ({ id: team.teamId || index, ...team }));
+  const rows = standings.map((team, index) => {
+    // team object may come in different shapes; normalize team name and numeric fields
+    const teamName = team?.team?.name || team?.teamName || team?.name || team?.abbreviation || '';
+    const wins = typeof team?.wins === 'number' ? team.wins : Number(team?.wins) || 0;
+    const losses = typeof team?.losses === 'number' ? team.losses : Number(team?.losses) || 0;
+    const winPct = typeof team?.winPct === 'number' ? team.winPct : Number(team?.winPct) || (wins + losses > 0 ? wins / (wins + losses) : 0);
+
+    return {
+      id: team?.teamId || team?.id || index,
+      teamName,
+      wins,
+      losses,
+      winPct,
+      // keep original for debugging if needed
+      _raw: team,
+    };
+  });
 
   if (loading) {
     return (
@@ -67,25 +99,37 @@ const Dashboard = () => {
               Recent Games
             </Typography>
             <Grid container spacing={2}>
-              {games.map((game) => (
-                <Grid item xs={12} sm={6} md={4} lg={3} key={game.id}>
-                  <Card variant="outlined">
-                    <CardContent>
-                      <Typography variant="subtitle1" component="div" align="center">
-                        {game.date}
-                      </Typography>
-                      <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 1 }}>
-                        <Typography variant="h6">{game.homeTeam}</Typography>
-                        <Typography variant="h6">{game.homeScore}</Typography>
-                      </Box>
-                      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                        <Typography variant="h6" color="text.secondary">{game.awayTeam}</Typography>
-                        <Typography variant="h6" color="text.secondary">{game.awayScore}</Typography>
-                      </Box>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              ))}
+              {games.map((game) => {
+                const fmtDate = game?.date || game?.gameDate || '';
+                const homeTeamStr = typeof game?.homeTeam === 'object'
+                  ? (game.homeTeam.name || game.homeTeam.abbreviation || JSON.stringify(game.homeTeam))
+                  : game?.homeTeam || '';
+                const awayTeamStr = typeof game?.awayTeam === 'object'
+                  ? (game.awayTeam.name || game.awayTeam.abbreviation || JSON.stringify(game.awayTeam))
+                  : game?.awayTeam || '';
+                const homeScore = game?.homeScore ?? game?.homeTeamScore ?? '';
+                const awayScore = game?.awayScore ?? game?.awayTeamScore ?? '';
+
+                return (
+                  <Grid item xs={12} sm={6} md={4} lg={3} key={game.id}>
+                    <Card variant="outlined">
+                      <CardContent>
+                        <Typography variant="subtitle1" component="div" align="center">
+                          {fmtDate}
+                        </Typography>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 1 }}>
+                          <Typography variant="h6">{homeTeamStr}</Typography>
+                          <Typography variant="h6">{homeScore}</Typography>
+                        </Box>
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                          <Typography variant="h6" color="text.secondary">{awayTeamStr}</Typography>
+                          <Typography variant="h6" color="text.secondary">{awayScore}</Typography>
+                        </Box>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                );
+              })}
               {games.length === 0 && (
                 <Typography variant="body1" sx={{ p: 2 }}>No recent games found.</Typography>
               )}

@@ -4,6 +4,8 @@ import com.nba.nba.dto.StandingsDTO;
 import com.nba.nba.entity.Game;
 import com.nba.nba.entity.Stats;
 import com.nba.nba.repository.StatsRepository;
+import com.nba.nba.entity.Season;
+import com.nba.nba.repository.SeasonRepository;
 import com.nba.nba.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,13 +23,25 @@ public class GameController {
 	@Autowired
 	private StatsRepository statsRepository;
 
+	@Autowired
+	private SeasonRepository seasonRepository;
+
 	@GetMapping("/recent")
 	public List<Game> getRecentGames() {
 		return gameService.getRecentGames();
 	}
 
 	@GetMapping("/standings")
-	public List<StandingsDTO> getStandings(@RequestParam Integer seasonId) {
+	public List<StandingsDTO> getStandings(@RequestParam(required = false) Integer seasonId) {
+		if (seasonId == null) {
+			// pick latest season by id if none provided
+			List<Season> seasons = seasonRepository.findAll();
+			if (seasons.isEmpty()) {
+				return java.util.Collections.emptyList();
+			}
+			seasons.sort(java.util.Comparator.comparing(Season::getId).reversed());
+			seasonId = seasons.get(0).getId();
+		}
 		return gameService.getStandings(seasonId);
 	}
 
