@@ -48,9 +48,9 @@ public class TeamController {
 
 	@PostMapping
 	@com.nba.nba.security.RequireRole("ADMIN")
-	public ResponseEntity<com.nba.nba.dto.TeamDTO> createTeam(@RequestBody Team team,
+	public ResponseEntity<com.nba.nba.dto.TeamDTO> createTeam(@RequestBody com.nba.nba.dto.CreateTeamDTO teamDTO,
 			jakarta.servlet.http.HttpServletRequest request) {
-		com.nba.nba.dto.TeamDTO savedTeam = teamService.saveTeam(team);
+		com.nba.nba.dto.TeamDTO savedTeam = teamService.createTeam(teamDTO);
 
 		Integer userId = Integer.parseInt(request.getHeader("X-User-Id"));
 		auditLogService.logAction(userId, "INSERT_TEAM", "TEAM", savedTeam.getId(),

@@ -72,4 +72,41 @@ public class StatsService {
 
     return dto;
   }
+
+  @Autowired
+  private com.nba.nba.repository.PlayerRepository playerRepository;
+  @Autowired
+  private com.nba.nba.repository.GameRepository gameRepository;
+  @Autowired
+  private com.nba.nba.repository.TeamRepository teamRepository;
+
+  public Stats createStats(com.nba.nba.dto.CreateStatsDTO dto) {
+    com.nba.nba.config.entity.Player player = playerRepository.findById(dto.getPlayerId())
+        .orElseThrow(() -> new RuntimeException("Player not found"));
+    com.nba.nba.config.entity.Game game = gameRepository.findById(dto.getGameId())
+        .orElseThrow(() -> new RuntimeException("Game not found"));
+    com.nba.nba.config.entity.Team team = teamRepository.findById(dto.getTeamId())
+        .orElseThrow(() -> new RuntimeException("Team not found"));
+
+    Stats stats = new Stats();
+    stats.setPlayer(player);
+    stats.setGame(game);
+    stats.setTeam(team);
+    stats.setMinutesPlayed(dto.getMinutesPlayed());
+    stats.setPoints(dto.getPoints());
+    stats.setRebounds(dto.getRebounds());
+    stats.setAssists(dto.getAssists());
+    stats.setSteals(dto.getSteals());
+    stats.setBlocks(dto.getBlocks());
+    stats.setTurnovers(dto.getTurnovers());
+    stats.setFieldGoalsMade(dto.getFieldGoalsMade());
+    stats.setFieldGoalsAttempted(dto.getFieldGoalsAttempted());
+    stats.setThreePointersMade(dto.getThreePointersMade());
+    stats.setThreePointersAttempted(dto.getThreePointersAttempted());
+    stats.setFreeThrowsMade(dto.getFreeThrowsMade());
+    stats.setFreeThrowsAttempted(dto.getFreeThrowsAttempted());
+    stats.setPersonalFouls(dto.getPersonalFouls());
+
+    return statsRepository.save(stats);
+  }
 }

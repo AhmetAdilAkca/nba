@@ -41,6 +41,20 @@ public class TeamService {
     return teamMapper.toDTO(savedTeam);
   }
 
+  public com.nba.nba.dto.TeamDTO createTeam(com.nba.nba.dto.CreateTeamDTO dto) {
+    com.nba.nba.config.entity.Division division = divisionRepository.findById(dto.getDivisionId())
+        .orElseThrow(() -> new RuntimeException("Division not found"));
+
+    Team team = new Team();
+    team.setName(dto.getName());
+    team.setAbbreviation(dto.getAbbreviation());
+    team.setCity(dto.getCity());
+    team.setDivision(division);
+
+    Team savedTeam = teamRepository.save(team);
+    return teamMapper.toDTO(savedTeam);
+  }
+
   public void deleteTeam(Integer id) {
     teamRepository.deleteById(id);
   }

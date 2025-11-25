@@ -37,6 +37,8 @@ export const createPlayer = (player) => api.post('/players', player).then(res =>
 export const createTeam = (team) => api.post('/teams', team).then(res => res.data);
 export const deletePlayer = (id) => api.delete(`/players/${id}`);
 export const deleteTeam = (id) => api.delete(`/teams/${id}`);
+export const createRoster = (roster) => api.post('/roster', roster).then(res => res.data);
+export const createStats = (stats) => api.post('/stats', stats).then(res => res.data);
 export const getAllDivisions = () => api.get('/teams/divisions').then(res => res.data);
 
 export default api;

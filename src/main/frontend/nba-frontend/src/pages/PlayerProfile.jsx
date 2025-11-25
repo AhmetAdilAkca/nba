@@ -114,10 +114,10 @@ const PlayerProfile = () => {
 
             {/* Season Stats */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <StatCard label="PPG" value={stats?.ppg} />
-                <StatCard label="RPG" value={stats?.rpg} />
-                <StatCard label="APG" value={stats?.apg} />
-                <StatCard label="FG%" value={stats?.fgPercentage ? `${(stats.fgPercentage * 100).toFixed(1)}%` : '-'} />
+                <StatCard label="PPG" value={stats?.pointsPerGame} />
+                <StatCard label="RPG" value={stats?.reboundsPerGame} />
+                <StatCard label="APG" value={stats?.assistsPerGame} />
+                <StatCard label="FG%" value={stats?.fieldGoalPercentage ? `${(stats.fieldGoalPercentage * 100).toFixed(1)}%` : '-'} />
             </div>
 
             {/* Game Log */}

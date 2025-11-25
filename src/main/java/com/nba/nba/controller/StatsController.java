@@ -25,9 +25,13 @@ public class StatsController {
 		return repo.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
 	}
 
+	@org.springframework.beans.factory.annotation.Autowired
+	private com.nba.nba.service.StatsService statsService;
+
 	@PostMapping
-	public Stats create(@RequestBody Stats s) {
-		return repo.save(s);
+	@com.nba.nba.security.RequireRole("ADMIN")
+	public Stats create(@RequestBody com.nba.nba.dto.CreateStatsDTO s) {
+		return statsService.createStats(s);
 	}
 
 	@PutMapping("/{id}")

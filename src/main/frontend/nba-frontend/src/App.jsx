@@ -2,39 +2,29 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';
 import { AuthProvider } from './context/AuthContext';
-import Navbar from './components/Navbar';
-import Dashboard from './pages/Dashboard';
-import PlayerProfile from './pages/PlayerProfile';
-import TeamPage from './pages/TeamPage';
-import GameDetail from './pages/GameDetail';
-import Players from './pages/Players';
-import Teams from './pages/Teams';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Games from './pages/Games';
-
-const theme = createTheme({
+<Route path="/admin" element={<AdminPage />} />
+          </Routes >
   palette: {
-    mode: 'light',
+  mode: 'light',
     primary: {
-      main: '#1976d2',
+    main: '#1976d2',
     },
-    secondary: {
-      main: '#dc004e',
+  secondary: {
+    main: '#dc004e',
     },
-    background: {
+  background: {
       default: '#f5f5f5',
     },
-  },
-  typography: {
-    fontFamily: 'Roboto, sans-serif',
+},
+typography: {
+  fontFamily: 'Roboto, sans-serif',
     h1: { fontWeight: 700 },
-    h2: { fontWeight: 600 },
-    h3: { fontWeight: 600 },
-    h4: { fontWeight: 600 },
-    h5: { fontWeight: 500 },
-    h6: { fontWeight: 500 },
-  },
+  h2: { fontWeight: 600 },
+  h3: { fontWeight: 600 },
+  h4: { fontWeight: 600 },
+  h5: { fontWeight: 500 },
+  h6: { fontWeight: 500 },
+},
 });
 
 function App() {
@@ -54,6 +44,7 @@ function App() {
             <Route path="/teams/:id" element={<TeamPage />} />
             <Route path="/games" element={<Games />} />
             <Route path="/games/:id" element={<GameDetail />} />
+            <Route path="/admin" element={<AdminPage />} />
           </Routes>
         </Router>
       </AuthProvider>

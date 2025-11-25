@@ -51,7 +51,17 @@ const Dashboard = () => {
     { field: 'teamName', headerName: 'Team', width: 200 },
     { field: 'wins', headerName: 'W', type: 'number', width: 90 },
     { field: 'losses', headerName: 'L', type: 'number', width: 90 },
-    { field: 'winPct', headerName: 'Pct', type: 'number', width: 90, valueFormatter: (params) => `${(params.value * 100).toFixed(1)}%` },
+    {
+      field: 'winPct',
+      headerName: 'Pct',
+      type: 'number',
+      width: 90,
+      valueFormatter: (params) => {
+        const val = params.value;
+        if (typeof val !== 'number' || isNaN(val)) return '0.0%';
+        return `${(val * 100).toFixed(1)}%`;
+      }
+    },
   ];
 
   // Add unique ID for DataGrid if not present in data
@@ -60,7 +70,14 @@ const Dashboard = () => {
     const teamName = team.teamName || team.name || '';
     const wins = typeof team.wins === 'number' ? team.wins : Number(team.wins) || 0;
     const losses = typeof team.losses === 'number' ? team.losses : Number(team.losses) || 0;
-    const winPct = typeof team.winPercentage === 'number' ? team.winPercentage : (typeof team.winPct === 'number' ? team.winPct : (wins + losses > 0 ? wins / (wins + losses) : 0));
+
+    // Use backend winPercentage if available, otherwise calculate
+    let winPct = 0;
+    if (typeof team.winPercentage === 'number') {
+      winPct = team.winPercentage;
+    } else if (wins + losses > 0) {
+      winPct = wins / (wins + losses);
+    }
 
     return {
       id: team.teamId || team.id || index,
