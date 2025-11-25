@@ -1,7 +1,7 @@
 package com.nba.nba.service;
 
-import com.nba.nba.entity.Roster;
-import com.nba.nba.entity.Team;
+import com.nba.nba.config.entity.Roster;
+import com.nba.nba.config.entity.Team;
 import com.nba.nba.repository.RosterRepository;
 import com.nba.nba.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,5 +29,13 @@ public class TeamService {
 
   public List<Roster> getRoster(Integer teamId, Integer seasonId) {
     return rosterRepository.findByTeamIdAndSeasonId(teamId, seasonId);
+  }
+
+  public Team saveTeam(Team team) {
+    return teamRepository.save(team);
+  }
+
+  public void deleteTeam(Integer id) {
+    teamRepository.deleteById(id);
   }
 }

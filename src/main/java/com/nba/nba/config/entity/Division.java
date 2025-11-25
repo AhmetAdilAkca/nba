@@ -1,4 +1,4 @@
-package com.nba.nba.entity;
+package com.nba.nba.config.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -18,5 +18,6 @@ public class Division {
 
 	@ManyToOne
 	@JoinColumn(name = "conf_id", nullable = false)
+	@com.fasterxml.jackson.annotation.JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private Conference conference;
 }

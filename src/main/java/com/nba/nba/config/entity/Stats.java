@@ -1,4 +1,4 @@
-package com.nba.nba.entity;
+package com.nba.nba.config.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -15,14 +15,17 @@ public class Stats {
 
 	@ManyToOne
 	@JoinColumn(name = "player_id", nullable = false)
+	@com.fasterxml.jackson.annotation.JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private Player player;
 
 	@ManyToOne
 	@JoinColumn(name = "game_id", nullable = false)
+	@com.fasterxml.jackson.annotation.JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private Game game;
 
 	@ManyToOne
 	@JoinColumn(name = "team_id", nullable = false)
+	@com.fasterxml.jackson.annotation.JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private Team team;
 
 	@Column(name = "minutes_played")

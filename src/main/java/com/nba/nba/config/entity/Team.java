@@ -1,4 +1,4 @@
-package com.nba.nba.entity;
+package com.nba.nba.config.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,5 +24,6 @@ public class Team {
 
 	@ManyToOne
 	@JoinColumn(name = "division_id", nullable = false)
+	@com.fasterxml.jackson.annotation.JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	private Division division;
 }

@@ -1,4 +1,4 @@
-package com.nba.nba.entity;
+package com.nba.nba.config.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

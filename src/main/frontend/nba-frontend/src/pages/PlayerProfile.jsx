@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getPlayerById, getPlayerStats, getGameLog } from '../services/api';
+import { getPlayerById, getPlayerStats, getGameLog, getAllSeasons } from '../services/api';
 
 const PlayerProfile = () => {
     const { id } = useParams();
@@ -8,26 +8,66 @@ const PlayerProfile = () => {
     const [stats, setStats] = useState(null);
     const [gameLog, setGameLog] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [seasons, setSeasons] = useState([]);
+    const [selectedSeason, setSelectedSeason] = useState(null);
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchSeasons = async () => {
+            try {
+                const data = await getAllSeasons();
+                setSeasons(data);
+                if (data.length > 0) {
+                    const latest = data.reduce((prev, curr) => prev.id > curr.id ? prev : curr);
+                    setSelectedSeason(latest.id);
+                }
+            } catch (error) {
+                console.error("Error fetching seasons:", error);
+            }
+        };
+        fetchSeasons();
+    }, []);
+
+    useEffect(() => {
+        const fetchPlayer = async () => {
             try {
                 const playerRes = await getPlayerById(id);
                 setPlayer(playerRes.data);
-
-                const statsRes = await getPlayerStats(id, 1); // Assuming season 1
-                setStats(statsRes.data);
-
-                const logRes = await getGameLog(id, 1);
-                setGameLog(logRes.data);
             } catch (error) {
-                console.error("Error fetching player data:", error);
+                console.error("Error fetching player:", error);
+                setPlayer(null);
             } finally {
                 setLoading(false);
             }
         };
-        fetchData();
+        fetchPlayer();
     }, [id]);
+
+    useEffect(() => {
+        if (!selectedSeason) return;
+
+        const fetchStats = async () => {
+            try {
+                try {
+                    const statsRes = await getPlayerStats(id, selectedSeason);
+                    setStats(statsRes.data);
+                } catch (e) {
+                    console.warn("Stats not found for season", selectedSeason);
+                    setStats(null);
+                }
+
+                try {
+                    const logRes = await getGameLog(id, selectedSeason);
+                    setGameLog(logRes.data);
+                } catch (e) {
+                    console.warn("Game log not found for season", selectedSeason);
+                    setGameLog([]);
+                }
+            } catch (error) {
+                console.error("Error fetching player stats:", error);
+            }
+        };
+        fetchStats();
+    }, [id, selectedSeason]);
 
     if (loading) return (
         <div className="flex justify-center items-center h-screen text-slate-500">
@@ -57,6 +97,19 @@ const PlayerProfile = () => {
                      {/* Placeholder for team logo or jersey number if available */}
                      <div className="text-6xl font-black text-slate-100">#{player.id}</div>
                 </div>
+            </div>
+
+            {/* Season Selector */}
+            <div className="flex justify-end">
+                <select 
+                    value={selectedSeason || ''} 
+                    onChange={(e) => setSelectedSeason(Number(e.target.value))}
+                    className="bg-white border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+                >
+                    {seasons.map(season => (
+                        <option key={season.id} value={season.id}>{season.description}</option>
+                    ))}
+                </select>
             </div>
 
             {/* Season Stats */}

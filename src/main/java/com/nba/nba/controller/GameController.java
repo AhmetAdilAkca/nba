@@ -1,10 +1,10 @@
 package com.nba.nba.controller;
 
 import com.nba.nba.dto.StandingsDTO;
-import com.nba.nba.entity.Game;
-import com.nba.nba.entity.Stats;
+import com.nba.nba.config.entity.Game;
+import com.nba.nba.config.entity.Stats;
 import com.nba.nba.repository.StatsRepository;
-import com.nba.nba.entity.Season;
+import com.nba.nba.config.entity.Season;
 import com.nba.nba.repository.SeasonRepository;
 import com.nba.nba.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +25,17 @@ public class GameController {
 
 	@Autowired
 	private SeasonRepository seasonRepository;
+
+	@GetMapping
+	public List<Game> getAllGames(@RequestParam(required = false) Integer seasonId,
+			@RequestParam(required = false) Integer teamId) {
+		return gameService.getAllGames(seasonId, teamId);
+	}
+
+	@GetMapping("/seasons")
+	public List<Season> getAllSeasons() {
+		return gameService.getAllSeasons();
+	}
 
 	@GetMapping("/recent")
 	public List<Game> getRecentGames() {

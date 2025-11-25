@@ -46,6 +46,9 @@ const Navbar = () => {
             <Button component={RouterLink} to="/teams" sx={{ my: 2, color: 'white', display: 'block' }}>
               Teams
             </Button>
+            <Button component={RouterLink} to="/games" sx={{ my: 2, color: 'white', display: 'block' }}>
+              Games
+            </Button>
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>

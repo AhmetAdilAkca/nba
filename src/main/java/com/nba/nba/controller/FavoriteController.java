@@ -1,7 +1,7 @@
 package com.nba.nba.controller;
 
-import com.nba.nba.entity.UserFavoritePlayer;
-import com.nba.nba.entity.UserFavoriteTeam;
+import com.nba.nba.config.entity.UserFavoritePlayer;
+import com.nba.nba.config.entity.UserFavoriteTeam;
 import com.nba.nba.repository.UserFavoritePlayerRepository;
 import com.nba.nba.repository.UserFavoriteTeamRepository;
 import com.nba.nba.security.RequireRole;

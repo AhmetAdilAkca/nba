@@ -11,6 +11,7 @@ import Players from './pages/Players';
 import Teams from './pages/Teams';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Games from './pages/Games';
 
 const theme = createTheme({
   palette: {
@@ -51,6 +52,7 @@ function App() {
             <Route path="/players/:id" element={<PlayerProfile />} />
             <Route path="/teams" element={<Teams />} />
             <Route path="/teams/:id" element={<TeamPage />} />
+            <Route path="/games" element={<Games />} />
             <Route path="/games/:id" element={<GameDetail />} />
           </Routes>
         </Router>

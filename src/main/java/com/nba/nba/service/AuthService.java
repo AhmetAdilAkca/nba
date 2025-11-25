@@ -2,7 +2,7 @@ package com.nba.nba.service;
 
 import com.nba.nba.dto.LoginDTO;
 import com.nba.nba.dto.RegisterDTO;
-import com.nba.nba.entity.AppUser;
+import com.nba.nba.config.entity.AppUser;
 import com.nba.nba.repository.AppUserRepository;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
 package com.nba.nba.security;
 
-import com.nba.nba.entity.AppUser;
+import com.nba.nba.config.entity.AppUser;
 import com.nba.nba.repository.AppUserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

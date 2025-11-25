@@ -1,7 +1,7 @@
 package com.nba.nba.service;
 
 import com.nba.nba.dto.PlayerStatsDTO;
-import com.nba.nba.entity.Stats;
+import com.nba.nba.config.entity.Stats;
 import com.nba.nba.repository.StatsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

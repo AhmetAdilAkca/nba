@@ -2,7 +2,7 @@ package com.nba.nba.controller;
 
 import com.nba.nba.dto.LoginDTO;
 import com.nba.nba.dto.RegisterDTO;
-import com.nba.nba.entity.AppUser;
+import com.nba.nba.config.entity.AppUser;
 import com.nba.nba.service.AuthService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

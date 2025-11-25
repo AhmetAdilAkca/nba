@@ -2,7 +2,7 @@ package com.nba.nba.controller;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
-import com.nba.nba.entity.Stats;
+import com.nba.nba.config.entity.Stats;
 import com.nba.nba.repository.StatsRepository;
 import java.util.*;
 
@@ -10,10 +10,15 @@ import java.util.*;
 @RequestMapping("/api/stats")
 public class StatsController {
 	private final StatsRepository repo;
-	public StatsController(StatsRepository repo) { this.repo = repo; }
+
+	public StatsController(StatsRepository repo) {
+		this.repo = repo;
+	}
 
 	@GetMapping
-	public List<Stats> all() { return repo.findAll(); }
+	public List<Stats> all() {
+		return repo.findAll();
+	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Stats> get(@PathVariable Integer id) {
@@ -21,7 +26,9 @@ public class StatsController {
 	}
 
 	@PostMapping
-	public Stats create(@RequestBody Stats s) { return repo.save(s); }
+	public Stats create(@RequestBody Stats s) {
+		return repo.save(s);
+	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Stats> update(@PathVariable Integer id, @RequestBody Stats s) {
@@ -33,7 +40,8 @@ public class StatsController {
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
-		if (!repo.existsById(id)) return ResponseEntity.notFound().build();
+		if (!repo.existsById(id))
+			return ResponseEntity.notFound().build();
 		repo.deleteById(id);
 		return ResponseEntity.noContent().build();
 	}

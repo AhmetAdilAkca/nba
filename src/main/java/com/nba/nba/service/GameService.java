@@ -1,8 +1,8 @@
 package com.nba.nba.service;
 
 import com.nba.nba.dto.StandingsDTO;
-import com.nba.nba.entity.Game;
-import com.nba.nba.entity.Team;
+import com.nba.nba.config.entity.Game;
+import com.nba.nba.config.entity.Team;
 import com.nba.nba.repository.GameRepository;
 import com.nba.nba.repository.TeamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,5 +88,32 @@ public class GameService {
         .filter(g -> g.getHomeTeam().getId().equals(teamId) || g.getAwayTeam().getId().equals(teamId))
         .sorted(Comparator.comparing(Game::getDate))
         .collect(Collectors.toList());
+  }
+
+  public List<Game> getAllGames(Integer seasonId, Integer teamId) {
+    List<Game> games;
+    if (seasonId != null) {
+      games = gameRepository.findBySeasonId(seasonId);
+    } else {
+      games = gameRepository.findAll();
+    }
+
+    if (teamId != null) {
+      games = games.stream()
+          .filter(g -> g.getHomeTeam().getId().equals(teamId) || g.getAwayTeam().getId().equals(teamId))
+          .collect(Collectors.toList());
+    }
+
+    // Sort by date descending
+    games.sort(Comparator.comparing(Game::getDate).reversed());
+
+    return games;
+  }
+
+  @Autowired
+  private com.nba.nba.repository.SeasonRepository seasonRepository;
+
+  public List<com.nba.nba.config.entity.Season> getAllSeasons() {
+    return seasonRepository.findAll();
   }
 }

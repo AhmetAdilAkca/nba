@@ -1,8 +1,8 @@
 package com.nba.nba.controller;
 
-import com.nba.nba.entity.Game;
-import com.nba.nba.entity.Roster;
-import com.nba.nba.entity.Team;
+import com.nba.nba.config.entity.Game;
+import com.nba.nba.config.entity.Roster;
+import com.nba.nba.config.entity.Team;
 import com.nba.nba.service.GameService;
 import com.nba.nba.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +41,40 @@ public class TeamController {
 	@GetMapping("/{id}/games")
 	public List<Game> getTeamGames(@PathVariable Integer id) {
 		return gameService.getTeamGames(id);
+	}
+
+	@Autowired
+	private com.nba.nba.service.AuditLogService auditLogService;
+
+	@PostMapping
+	@com.nba.nba.security.RequireRole("ADMIN")
+	public ResponseEntity<Team> createTeam(@RequestBody Team team,
+			jakarta.servlet.http.HttpServletRequest request) {
+		Team savedTeam = teamService.saveTeam(team);
+
+		Integer userId = Integer.parseInt(request.getHeader("X-User-Id"));
+		auditLogService.logAction(userId, "INSERT_TEAM", "TEAM", savedTeam.getId(),
+				"Created team: " + savedTeam.getName());
+
+		return ResponseEntity.ok(savedTeam);
+	}
+
+	@DeleteMapping("/{id}")
+	@com.nba.nba.security.RequireRole("ADMIN")
+	public ResponseEntity<?> deleteTeam(@PathVariable Integer id, jakarta.servlet.http.HttpServletRequest request) {
+		teamService.deleteTeam(id);
+
+		Integer userId = Integer.parseInt(request.getHeader("X-User-Id"));
+		auditLogService.logAction(userId, "DELETE_TEAM", "TEAM", id, "Deleted team with ID: " + id);
+
+		return ResponseEntity.ok().build();
+	}
+
+	@Autowired
+	private com.nba.nba.repository.DivisionRepository divisionRepository;
+
+	@GetMapping("/divisions")
+	public List<com.nba.nba.config.entity.Division> getAllDivisions() {
+		return divisionRepository.findAll();
 	}
 }

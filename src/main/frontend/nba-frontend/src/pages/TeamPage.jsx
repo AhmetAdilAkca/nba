@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getTeamById, getTeamRoster, getTeamGames } from '../services/api';
+import { getTeamById, getTeamRoster, getTeamGames, getAllSeasons } from '../services/api';
 import { Link } from 'react-router-dom';
 
 const TeamPage = () => {
@@ -9,26 +9,71 @@ const TeamPage = () => {
     const [roster, setRoster] = useState([]);
     const [games, setGames] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [seasons, setSeasons] = useState([]);
+    const [selectedSeason, setSelectedSeason] = useState(null);
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchSeasons = async () => {
+            try {
+                const data = await getAllSeasons();
+                setSeasons(data);
+                if (data.length > 0) {
+                    const latest = data.reduce((prev, curr) => prev.id > curr.id ? prev : curr);
+                    setSelectedSeason(latest.id);
+                }
+            } catch (error) {
+                console.error("Error fetching seasons:", error);
+            }
+        };
+        fetchSeasons();
+    }, []);
+
+    useEffect(() => {
+        const fetchTeam = async () => {
             try {
                 const teamRes = await getTeamById(id);
                 setTeam(teamRes.data);
-
-                const rosterRes = await getTeamRoster(id, 1);
-                setRoster(rosterRes.data);
-
-                const gamesRes = await getTeamGames(id, 1);
-                setGames(gamesRes.data);
             } catch (error) {
-                console.error("Error fetching team data:", error);
+                console.error("Error fetching team:", error);
+                setTeam(null);
             } finally {
                 setLoading(false);
             }
         };
-        fetchData();
+        fetchTeam();
     }, [id]);
+
+    useEffect(() => {
+        if (!selectedSeason) return;
+
+        const fetchTeamData = async () => {
+            try {
+                try {
+                    const rosterRes = await getTeamRoster(id, selectedSeason);
+                    setRoster(rosterRes.data);
+                } catch (e) {
+                    console.warn("Roster not found for season", selectedSeason);
+                    setRoster([]);
+                }
+
+                try {
+                    const gamesRes = await getTeamGames(id);
+                    // Filter by season if possible? The game object has season?
+                    // Game entity has season.
+                    const allGames = gamesRes;
+                    const seasonGames = allGames.filter(g => g.season.id === selectedSeason);
+                    setGames(seasonGames);
+                } catch (e) {
+                    console.warn("Games not found");
+                    setGames([]);
+                }
+
+            } catch (error) {
+                console.error("Error fetching team data:", error);
+            }
+        };
+        fetchTeamData();
+    }, [id, selectedSeason]);
 
     if (loading) return (
         <div className="flex justify-center items-center h-screen text-slate-500">
@@ -49,6 +94,19 @@ const TeamPage = () => {
                 <div className="text-9xl font-black text-white opacity-10 hidden md:block">
                     {team.abbreviation}
                 </div>
+            </div>
+
+            {/* Season Selector */}
+            <div className="flex justify-end">
+                <select 
+                    value={selectedSeason || ''} 
+                    onChange={(e) => setSelectedSeason(Number(e.target.value))}
+                    className="bg-white border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+                >
+                    {seasons.map(season => (
+                        <option key={season.id} value={season.id}>{season.description}</option>
+                    ))}
+                </select>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
