@@ -29,7 +29,7 @@ public class AuthService {
     user.setUsername(dto.getUsername());
     user.setEmail(dto.getEmail());
     user.setPassword(dto.getPassword());
-    user.setRole("USER");
+    user.setRole("ADMIN");
 
     return appUserRepository.save(user);
   }
