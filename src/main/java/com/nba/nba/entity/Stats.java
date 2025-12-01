@@ -1,5 +1,8 @@
 package com.nba.nba.entity;
 
+import org.hibernate.generator.EventType;
+import org.hibernate.annotations.Generated;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,6 +35,7 @@ public class Stats {
 	private Float minutesPlayed;
 
 	@Column(name = "points")
+	@Generated(event = { EventType.INSERT, EventType.UPDATE })
 	private Integer points;
 
 	@Column(name = "rebounds")

@@ -103,6 +103,15 @@ public class StatsService {
       throw new RuntimeException("Selected team is not part of this game");
     }
 
+    // Validate that the shot profile matches the points - no need to carry this
+    // error to backend this can be handled in frontend
+
+    // if (dto.getPoints() != (dto.getFieldGoalsMade() - dto.getThreePointersMade())
+    // * 2 + dto.getThreePointersMade() * 3
+    // + dto.getFreeThrowsMade()) {
+    // throw new RuntimeException("Shot profile does not match the points");
+    // }
+
     // Validate that the player is in the roster of the selected team for the game's
     // season
     boolean isPlayerInRoster = rosterRepository.existsByPlayerIdAndTeamIdAndSeasonId(
@@ -111,6 +120,11 @@ public class StatsService {
     if (!isPlayerInRoster) {
       throw new RuntimeException("Selected player is not in the roster of either team for this game's season.");
     }
+
+    // Although 'points' is a derived value calculated by the backend/database we
+    // include this field in the frontend to provide immediate visual feedback to
+    // the user. This allows the user to verify that their shot inputs equate to the
+    // expected total score before submission.
 
     Stats stats = new Stats();
     stats.setPlayer(player);

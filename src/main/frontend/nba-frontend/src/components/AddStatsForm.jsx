@@ -98,12 +98,62 @@ const AddStatsForm = ({ onSuccess }) => {
   };
 
   const handleSubmit = async (e) => {
+    // the reason we let the user input the points is we want user to be understand what
+
     e.preventDefault();
     setError('');
     setSuccess('');
 
     if (!formData.teamId) {
       setError("Could not determine team. Please check Game and Player selection.");
+      return;
+    }
+
+    if (!formData.playerId) {
+      setError("Please select a player.");
+      return;
+    }
+
+    if (!formData.gameId) {
+      setError("Please select a game.");
+      return;
+    }
+
+    if (formData.points != (formData.fieldGoalsMade - formData.threePointersMade) * 2 + formData.threePointersMade * 3 + formData.freeThrowsMade) {
+      setError("Points do not match the calculated points.");
+      return;
+    }
+
+    const numericFields = [
+      'minutesPlayed', 'points', 'rebounds', 'assists', 'steals',
+      'blocks', 'turnovers', 'personalFouls',
+      'fieldGoalsMade', 'fieldGoalsAttempted',
+      'threePointersMade', 'threePointersAttempted',
+      'freeThrowsMade', 'freeThrowsAttempted'
+    ];
+
+    for (const field of numericFields) {
+      if (formData[field] < 0) {
+        setError(`${field} cannot be negative.`);
+        return;
+      }
+    }
+
+    if (Number(formData.fieldGoalsMade) > Number(formData.fieldGoalsAttempted)) {
+      setError("Field Goals Made cannot be greater than Attempts.");
+      return;
+    }
+    if (Number(formData.threePointersMade) > Number(formData.threePointersAttempted)) {
+      setError("3-Pointers Made cannot be greater than Attempts.");
+      return;
+    }
+    if (Number(formData.freeThrowsMade) > Number(formData.freeThrowsAttempted)) {
+      setError("Free Throws Made cannot be greater than Attempts.");
+      return;
+    }
+
+    if (Number(formData.threePointersMade) > Number(formData.fieldGoalsMade)) {
+      setError("3-Pointers Made cannot be greater than Total Field Goals Made.");
       return;
     }
 
