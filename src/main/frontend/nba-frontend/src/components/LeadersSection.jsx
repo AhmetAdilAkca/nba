@@ -1,3 +1,5 @@
+// This component visualizes the top performing players across various categories like points, rebounds, and assists.
+// It also displays the current standings, providing a quick snapshot of the league leaders.
 import React, { useEffect, useState } from 'react';
 import { Grid, Paper, Typography, Box, Avatar, CircularProgress } from '@mui/material';
 import { getPointsLeaders, getReboundsLeaders, getAssistsLeaders } from '../services/api';

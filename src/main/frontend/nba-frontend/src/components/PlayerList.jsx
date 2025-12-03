@@ -1,3 +1,5 @@
+// This component renders a list of players, likely with filtering capabilities.
+// It fetches the player list from the API and displays them as links.
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';

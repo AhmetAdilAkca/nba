@@ -1,3 +1,5 @@
+// This page provides a comprehensive view of all games, with options to filter by season or team.
+// It displays game results and upcoming matchups in a card layout.
 import React, { useEffect, useState } from 'react';
 import {
   Container, Grid, Typography, Box, Card, CardContent, CircularProgress, Alert, FormControl, InputLabel, Select, MenuItem
@@ -23,9 +25,7 @@ const Games = () => {
         setSeasons(seasonsData);
         setTeams(teamsData);
 
-        // Set default season to the latest one if available
         if (seasonsData.length > 0) {
-          // Assuming seasons are sorted or we find the max ID
           const latestSeason = seasonsData.reduce((prev, current) => (prev.id > current.id) ? prev : current);
           setSelectedSeason(latestSeason.id);
         }

@@ -1,3 +1,5 @@
+// This page displays the logged-in user's personal profile, including their favorite teams and players.
+// It allows users to manage their favorites and view their account details.
 import React, { useEffect, useState } from 'react';
 import { Container, Typography, Paper, Grid, Card, CardContent, Button, List, ListItem, ListItemText, ListItemSecondaryAction, IconButton } from '@mui/material';
 import { getMyProfile, removeFavoriteTeam, removeFavoritePlayer } from '../services/api';
@@ -31,7 +33,7 @@ const ProfilePage = () => {
   const handleRemoveTeam = async (teamId) => {
     try {
       await removeFavoriteTeam(teamId);
-      fetchProfile(); // Refresh list
+      fetchProfile();
     } catch (err) {
       console.error("Failed to remove team", err);
     }
@@ -40,7 +42,7 @@ const ProfilePage = () => {
   const handleRemovePlayer = async (playerId) => {
     try {
       await removeFavoritePlayer(playerId);
-      fetchProfile(); // Refresh list
+      fetchProfile();
     } catch (err) {
       console.error("Failed to remove player", err);
     }

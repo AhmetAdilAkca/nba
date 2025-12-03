@@ -1,3 +1,5 @@
+// This page is the full-page view for a specific game, fetching and displaying all related data including box scores.
+// It shows detailed stats for both teams and individual players.
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getBoxScore, getGameById } from '../services/api';
@@ -77,7 +79,6 @@ const GameDetail = () => {
                 </div>
             </div>
 
-            {/* Box Scores - Side by Side on Desktop */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <BoxScoreTable teamName={game.homeTeamName} stats={homeStats} teamAbbreviation={game.homeTeamAbbreviation} />
                 <BoxScoreTable teamName={game.awayTeamName} stats={awayStats} teamAbbreviation={game.awayTeamAbbreviation} />

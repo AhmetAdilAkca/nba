@@ -1,6 +1,8 @@
+// This page handles user authentication, capturing credentials and communicating with the auth service.
+// It redirects the user to the dashboard upon successful login.
 import React, { useState } from 'react';
-import { 
-  Container, Paper, Typography, TextField, Button, Box, Alert 
+import {
+  Container, Paper, Typography, TextField, Button, Box, Alert
 } from '@mui/material';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -29,7 +31,7 @@ const Login = () => {
         <Typography component="h1" variant="h5" gutterBottom>
           Sign in
         </Typography>
-        
+
         {error && <Alert severity="error" sx={{ width: '100%', mb: 2 }}>{error}</Alert>}
 
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1, width: '100%' }}>

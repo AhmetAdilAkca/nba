@@ -1,3 +1,5 @@
+// This component provides a confirmation UI before executing destructive delete operations.
+// It ensures users don't accidentally remove important data.
 import React from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button } from '@mui/material';
 

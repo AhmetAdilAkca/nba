@@ -1,3 +1,5 @@
+// This page is the detailed profile view for a player, showing their stats, bio, and game log.
+// It aggregates data from multiple endpoints to present a complete player overview.
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getPlayerById, getPlayerStats, getGameLog, getAllSeasons, getPlayerAwards } from '../services/api';
@@ -89,14 +91,12 @@ const PlayerProfile = () => {
 
     return (
         <div className="container mx-auto p-6 space-y-8 font-sans text-slate-800">
-            {/* Back Button */}
             <div className="mb-4">
                 <a href="/players" className="text-blue-600 hover:text-blue-800 font-semibold flex items-center transition-colors">
                     <span className="mr-1">←</span> Back to Players
                 </a>
             </div>
 
-            {/* 1. Profile Card & Stats Bar */}
             <Box sx={{ mb: 4 }}>
                 <Paper elevation={3} sx={{ borderRadius: 4, overflow: 'hidden', border: '1px solid #e2e8f0' }}>
                     <Box sx={{
@@ -105,12 +105,11 @@ const PlayerProfile = () => {
                         p: { xs: 3, md: 4 },
                         gap: 4
                     }}>
-                        {/* Player Image - Left */}
                         <Box sx={{
                             flexShrink: 0,
                             width: '100%',
                             maxWidth: '200px',
-                            mx: { xs: 'auto', md: 0 } // Center on mobile
+                            mx: { xs: 'auto', md: 0 }
                         }}>
                             <Box sx={{ position: 'relative' }}>
                                 <img
@@ -131,59 +130,48 @@ const PlayerProfile = () => {
                             </Box>
                         </Box>
 
-                        {/* Player Info - Right */}
                         <Box sx={{ flex: 1, textAlign: { xs: 'center', md: 'left' } }}>
-                            {/* Name */}
                             <Typography variant="h3" component="h1" sx={{ fontWeight: 900, mb: 2, color: '#0f172a', textTransform: 'uppercase', letterSpacing: '-0.025em' }}>
                                 {player.playerName} <span style={{ color: '#2563eb' }}>{player.playerSurname}</span>
                             </Typography>
 
-                            {/* Info Grid */}
                             <Grid container spacing={2}>
-                                {/* Team */}
+
                                 <Grid item xs={12} sm={6}>
                                     <Typography variant="caption" sx={{ fontWeight: 'bold', color: '#94a3b8', textTransform: 'uppercase', display: 'block', mb: 0.5 }}>Team</Typography>
                                     <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#334155' }}>{player.teamName || 'NBA Team'}</Typography>
                                 </Grid>
 
-                                {/* Position */}
                                 <Grid item xs={12} sm={6}>
                                     <Typography variant="caption" sx={{ fontWeight: 'bold', color: '#94a3b8', textTransform: 'uppercase', display: 'block', mb: 0.5 }}>Position</Typography>
                                     <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#334155' }}>{player.position || 'N/A'}</Typography>
                                 </Grid>
 
-                                {/* Number */}
                                 <Grid item xs={12} sm={6}>
                                     <Typography variant="caption" sx={{ fontWeight: 'bold', color: '#94a3b8', textTransform: 'uppercase', display: 'block', mb: 0.5 }}>Number</Typography>
                                     <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#334155' }}>#{player.jerseyNumber || '00'}</Typography>
                                 </Grid>
 
-                                {/* Height */}
                                 <Grid item xs={12} sm={6}>
                                     <Typography variant="caption" sx={{ fontWeight: 'bold', color: '#94a3b8', textTransform: 'uppercase', display: 'block', mb: 0.5 }}>Height</Typography>
                                     <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#334155' }}>{player.height ? `${player.height} cm` : 'N/A'}</Typography>
                                 </Grid>
 
-
-                                {/* Weight */}
                                 <Grid item xs={12} sm={6}>
                                     <Typography variant="caption" sx={{ fontWeight: 'bold', color: '#94a3b8', textTransform: 'uppercase', display: 'block', mb: 0.5 }}>Weight</Typography>
                                     <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#334155' }}>{player.weight ? `${player.weight} kg` : 'N/A'}</Typography>
                                 </Grid>
 
-                                {/* Country */}
                                 <Grid item xs={12} sm={6}>
                                     <Typography variant="caption" sx={{ fontWeight: 'bold', color: '#94a3b8', textTransform: 'uppercase', display: 'block', mb: 0.5 }}>Country</Typography>
                                     <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#334155' }}>{player.nationality || 'N/A'}</Typography>
                                 </Grid>
 
-                                {/* Draft Year */}
                                 <Grid item xs={12} sm={6}>
                                     <Typography variant="caption" sx={{ fontWeight: 'bold', color: '#94a3b8', textTransform: 'uppercase', display: 'block', mb: 0.5 }}>Draft Year</Typography>
                                     <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#334155' }}>{player.draftYear || 'Undrafted'}</Typography>
                                 </Grid>
 
-                                {/* Birth Date */}
                                 {player.birthDay && (
                                     <Grid item xs={12} sm={6}>
                                         <Typography variant="caption" sx={{ fontWeight: 'bold', color: '#94a3b8', textTransform: 'uppercase', display: 'block', mb: 0.5 }}>Birth Date</Typography>
@@ -196,10 +184,8 @@ const PlayerProfile = () => {
                 </Paper>
             </Box>
 
-            {/* Stats & Info Bar */}
             <div className="bg-white border-x border-b border-slate-200 rounded-b-2xl shadow-sm">
                 <div className="flex flex-col md:flex-row divide-y md:divide-y-0 md:divide-x divide-slate-200">
-                    {/* Left: Key Stats */}
                     <div className="flex justify-around md:justify-start md:space-x-16 px-8 py-6 md:w-5/12 bg-slate-50 rounded-bl-2xl">
                         <div className="text-center">
                             <div className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">PPG</div>
@@ -215,7 +201,6 @@ const PlayerProfile = () => {
                         </div>
                     </div>
 
-                    {/* Right: Bio Info */}
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6 px-8 py-6 md:w-7/12">
                         <div>
                             <div className="text-xs font-bold text-slate-400 uppercase mb-1">Height</div>
@@ -233,13 +218,11 @@ const PlayerProfile = () => {
                             <div className="text-xs font-bold text-slate-400 uppercase mb-1">Draft</div>
                             <div className="font-bold text-slate-700">{player.draftYear || 'Undrafted'}</div>
                         </div>
-                        {/* Add more fields if available in the future */}
                     </div>
                 </div>
             </div>
 
 
-            {/* Season Selector */}
             <div className="flex justify-between items-center bg-white p-4 rounded-xl shadow-sm border border-slate-200">
                 <h3 className="text-lg font-bold text-slate-700">Season Statistics</h3>
                 <select
@@ -253,7 +236,6 @@ const PlayerProfile = () => {
                 </select>
             </div>
 
-            {/* 2. Stats Summary (Cards) */}
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4">
                 <StatCard label="GP" value={stats?.gamesPlayed || gameLog.length} />
                 <StatCard label="PPG" value={stats?.pointsPerGame} highlight />
@@ -265,7 +247,6 @@ const PlayerProfile = () => {
                 <StatCard label="3P%" value={stats?.threePointPercentage ? `${(stats.threePointPercentage * 100).toFixed(1)}%` : '-'} />
             </div>
 
-            {/* Career Awards */}
             {
                 awards.length > 0 && (
                     <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
@@ -284,7 +265,6 @@ const PlayerProfile = () => {
                 )
             }
 
-            {/* 3. Game Log Table */}
             <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                 <div className="px-6 py-5 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
                     <h3 className="text-lg font-bold text-slate-800">Game Log</h3>

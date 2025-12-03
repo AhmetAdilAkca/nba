@@ -1,3 +1,5 @@
+// This component lists all the teams, potentially grouped by division or conference.
+// It serves as a directory for navigating to individual team pages.
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';

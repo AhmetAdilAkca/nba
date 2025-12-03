@@ -1,3 +1,5 @@
+// This file acts as the API client layer, handling all HTTP requests to the backend endpoints.
+// It configures Axios with the base URL and interceptors for authentication.
 import axios from 'axios';
 
 const api = axios.create({

@@ -1,3 +1,5 @@
+// This component serves as the root component, defining the application's routing structure and layout.
+// It sets up the theme, authentication provider, and main navigation routes.
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider, createTheme, CssBaseline } from '@mui/material';

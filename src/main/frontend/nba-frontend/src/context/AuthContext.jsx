@@ -1,3 +1,5 @@
+// This component provides a global authentication state, managing the user session and token.
+// It exposes login, register, and logout functions to the rest of the application.
 import React, { createContext, useState, useEffect, useContext } from 'react';
 
 const AuthContext = createContext(null);
@@ -29,7 +31,6 @@ export const AuthProvider = ({ children }) => {
       }
 
       const userData = await response.json();
-      // userData should contain { id, username, email, role, ... }
       setUser(userData);
       localStorage.setItem('user', JSON.stringify(userData));
       return userData;
@@ -53,8 +54,6 @@ export const AuthProvider = ({ children }) => {
       }
 
       const userData = await response.json();
-      // Auto-login after register? Or just return user?
-      // Let's just return user and let component handle redirect to login or auto-login
       return userData;
     } catch (error) {
       console.error('Registration error:', error);

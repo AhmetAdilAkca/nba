@@ -2,6 +2,7 @@ package com.nba.nba.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.nba.nba.dto.AnalysisDTOs;
 import com.nba.nba.dto.AnalysisDTOs.TripleDoubleProjection;
 import com.nba.nba.entity.Stats;
 import org.springframework.data.jpa.repository.Query;
@@ -30,7 +31,7 @@ public interface StatsRepository extends JpaRepository<Stats, Integer> {
                         "max_points AS maxPoints " +
                         "FROM VIEW_PLAYER_SEASON_STATS " +
                         "ORDER BY season_name DESC, avg_points DESC", nativeQuery = true)
-        List<com.nba.nba.dto.AnalysisDTOs.PlayerSeasonStatsProjection> findAllPlayerSeasonStats();
+        List<AnalysisDTOs.PlayerSeasonStatsProjection> findAllPlayerSeasonStats();
 
         // 2. Triple Doubles
         @Query(value = "SELECT " +
@@ -82,7 +83,7 @@ public interface StatsRepository extends JpaRepository<Stats, Integer> {
                         "(CASE WHEN st.blocks >= 10 THEN 1 ELSE 0 END) " +
                         ") >= 2 " +
                         "ORDER BY g.date DESC", nativeQuery = true)
-        List<com.nba.nba.dto.AnalysisDTOs.TripleDoubleProjection> findDoubleDoubles(Integer seasonId);
+        List<AnalysisDTOs.TripleDoubleProjection> findDoubleDoubles(Integer seasonId);
 
         // Leaders - Blocks
         @Query(value = "SELECT " +
@@ -95,7 +96,7 @@ public interface StatsRepository extends JpaRepository<Stats, Integer> {
                         "WHERE season_id = :seasonId " +
                         "ORDER BY avg_blocks DESC " +
                         "LIMIT :limit", nativeQuery = true)
-        List<com.nba.nba.dto.AnalysisDTOs.DefensiveLeadersProjection> findBlocksLeaders(Integer seasonId,
+        List<AnalysisDTOs.DefensiveLeadersProjection> findBlocksLeaders(Integer seasonId,
                         Integer limit);
 
         // Leaders - Steals
@@ -109,7 +110,7 @@ public interface StatsRepository extends JpaRepository<Stats, Integer> {
                         "WHERE season_id = :seasonId " +
                         "ORDER BY avg_steals DESC " +
                         "LIMIT :limit", nativeQuery = true)
-        List<com.nba.nba.dto.AnalysisDTOs.DefensiveLeadersProjection> findStealsLeaders(Integer seasonId,
+        List<AnalysisDTOs.DefensiveLeadersProjection> findStealsLeaders(Integer seasonId,
                         Integer limit);
 
         // Team Season Performance
@@ -123,7 +124,7 @@ public interface StatsRepository extends JpaRepository<Stats, Integer> {
                         "FROM VIEW_TEAM_SEASON_PERFORMANCE " +
                         "WHERE season_id = :seasonId " +
                         "ORDER BY wins DESC", nativeQuery = true)
-        List<com.nba.nba.dto.AnalysisDTOs.TeamSeasonPerformanceProjection> findTeamSeasonPerformance(Integer seasonId);
+        List<AnalysisDTOs.TeamSeasonPerformanceProjection> findTeamSeasonPerformance(Integer seasonId);
 
         // 5. Shooting Efficiency
         @Query(value = "SELECT " +
@@ -140,7 +141,7 @@ public interface StatsRepository extends JpaRepository<Stats, Integer> {
                         "WHERE season_id = :seasonId " +
                         "AND total_fga >= 50 " +
                         "ORDER BY ts_pct DESC", nativeQuery = true)
-        List<com.nba.nba.dto.AnalysisDTOs.ShootingEfficiencyProjection> findShootingEfficiency(Integer seasonId);
+        List<AnalysisDTOs.ShootingEfficiencyProjection> findShootingEfficiency(Integer seasonId);
 
         // Leaders - Points
         @Query(value = "SELECT " +
@@ -157,7 +158,7 @@ public interface StatsRepository extends JpaRepository<Stats, Integer> {
                         "WHERE season_id = :seasonId " +
                         "ORDER BY avg_points DESC " +
                         "LIMIT :limit", nativeQuery = true)
-        List<com.nba.nba.dto.AnalysisDTOs.PlayerSeasonStatsProjection> findPointsLeaders(Integer seasonId,
+        List<AnalysisDTOs.PlayerSeasonStatsProjection> findPointsLeaders(Integer seasonId,
                         Integer limit);
 
         // Leaders - Rebounds
@@ -175,7 +176,7 @@ public interface StatsRepository extends JpaRepository<Stats, Integer> {
                         "WHERE season_id = :seasonId " +
                         "ORDER BY avg_rebounds DESC " +
                         "LIMIT :limit", nativeQuery = true)
-        List<com.nba.nba.dto.AnalysisDTOs.PlayerSeasonStatsProjection> findReboundsLeaders(Integer seasonId,
+        List<AnalysisDTOs.PlayerSeasonStatsProjection> findReboundsLeaders(Integer seasonId,
                         Integer limit);
 
         // Leaders - Assists
@@ -193,6 +194,6 @@ public interface StatsRepository extends JpaRepository<Stats, Integer> {
                         "WHERE season_id = :seasonId " +
                         "ORDER BY avg_assists DESC " +
                         "LIMIT :limit", nativeQuery = true)
-        List<com.nba.nba.dto.AnalysisDTOs.PlayerSeasonStatsProjection> findAssistsLeaders(Integer seasonId,
+        List<AnalysisDTOs.PlayerSeasonStatsProjection> findAssistsLeaders(Integer seasonId,
                         Integer limit);
 }

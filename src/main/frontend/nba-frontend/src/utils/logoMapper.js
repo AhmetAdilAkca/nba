@@ -1,4 +1,6 @@
 
+// This utility maps team abbreviations to their corresponding logo image filenames.
+// It ensures consistent logo display across the application.
 const logoMap = {
   'ATL': 'hawks_logo.svg',
   'BOS': 'boston_logo.svg',

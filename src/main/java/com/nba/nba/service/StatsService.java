@@ -14,6 +14,7 @@ import com.nba.nba.dto.CreateStatsDTO;
 import com.nba.nba.entity.Player;
 import com.nba.nba.entity.Game;
 import com.nba.nba.entity.Team;
+import com.nba.nba.repository.RosterRepository;
 
 @Service
 public class StatsService {
@@ -22,7 +23,7 @@ public class StatsService {
   private StatsRepository statsRepository;
 
   @Autowired
-  private com.nba.nba.repository.RosterRepository rosterRepository;
+  private RosterRepository rosterRepository;
 
   public PlayerStatsDTO calculateSeasonStats(Integer playerId, Integer seasonId) {
     List<Stats> statsList = statsRepository.findByPlayerIdAndSeasonId(playerId, seasonId);

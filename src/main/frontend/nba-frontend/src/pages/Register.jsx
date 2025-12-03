@@ -1,6 +1,8 @@
+// This page handles new user registration, collecting necessary information to create an account.
+// It redirects to the login page upon successful sign-up.
 import React, { useState } from 'react';
-import { 
-  Container, Paper, Typography, TextField, Button, Box, Alert 
+import {
+  Container, Paper, Typography, TextField, Button, Box, Alert
 } from '@mui/material';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -18,7 +20,6 @@ const Register = () => {
     setError('');
     try {
       await register(username, email, password);
-      // After register, redirect to login
       navigate('/login');
     } catch (err) {
       setError(err.message);
@@ -31,7 +32,7 @@ const Register = () => {
         <Typography component="h1" variant="h5" gutterBottom>
           Sign Up
         </Typography>
-        
+
         {error && <Alert severity="error" sx={{ width: '100%', mb: 2 }}>{error}</Alert>}
 
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1, width: '100%' }}>

@@ -1,3 +1,5 @@
+// This page provides a detailed view of a specific team, including their roster and schedule.
+// It allows users to see team stats, game results, and add the team to their favorites.
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getTeamById, getTeamRoster, getTeamGames, getAllSeasons, addFavoriteTeam, removeFavoriteTeam, getMyProfile } from '../services/api';
@@ -134,7 +136,6 @@ const TeamPage = () => {
 
     return (
         <div className="container mx-auto p-6 space-y-8">
-            {/* Header */}
             <div className="bg-gradient-to-r from-slate-900 to-slate-800 rounded-xl shadow-lg p-8 text-white flex justify-between items-center relative overflow-hidden">
                 <div className="flex items-center space-x-8 z-10">
                     <img
@@ -167,7 +168,6 @@ const TeamPage = () => {
                 </div>
             </div>
 
-            {/* Season Selector */}
             <div className="flex justify-end">
                 <select
                     value={selectedSeason || ''}
@@ -181,7 +181,6 @@ const TeamPage = () => {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/* Roster */}
                 <div className="lg:col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                     <div className="px-6 py-4 border-b border-slate-100 bg-slate-50">
                         <h2 className="text-lg font-bold text-slate-800">Team Roster</h2>
@@ -216,7 +215,6 @@ const TeamPage = () => {
                     </div>
                 </div>
 
-                {/* Schedule */}
                 <div className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden h-fit">
                     <div className="px-6 py-4 border-b border-slate-100 bg-slate-50">
                         <h2 className="text-lg font-bold text-slate-800">Schedule & Results</h2>

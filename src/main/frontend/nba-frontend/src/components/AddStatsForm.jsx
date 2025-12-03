@@ -1,3 +1,5 @@
+// This component manages the input fields for recording player statistics for a specific game.
+// It validates the stats (e.g., points match field goals) and submits the data to the API.
 import React, { useState, useEffect } from 'react';
 import { Box, Button, TextField, Typography, Alert, MenuItem, Select, InputLabel, FormControl, Grid } from '@mui/material';
 import { getAllGames, getAllPlayers, getTeamRoster, createStats } from '../services/api';
@@ -53,23 +55,15 @@ const AddStatsForm = ({ onSuccess }) => {
         const selectedGame = games.find(g => g.id === formData.gameId);
         if (!selectedGame) return;
 
-        // GameDTO is flat, so we access seasonId directly
         const seasonId = selectedGame.seasonId;
         if (!seasonId) {
           setError("Game season not found.");
           return;
         }
 
-        // GameDTO is flat, so we access homeTeamId and awayTeamId directly
         const homeRoster = await getTeamRoster(selectedGame.homeTeamId, seasonId);
         const awayRoster = await getTeamRoster(selectedGame.awayTeamId, seasonId);
-        console.log("Season ID:", seasonId);
-        console.log("home Roster id", selectedGame.homeTeamId);
-        console.log("away Roster id", selectedGame.awayTeamId);
-        console.log("Home Roster:", homeRoster);
-        console.log("Player ID to find:", formData.playerId);
 
-        // Ensure we compare numbers
         const targetPlayerId = Number(formData.playerId);
         const playerInHome = homeRoster.find(r => r.player.id === targetPlayerId);
         const playerInAway = awayRoster.find(r => r.player.id === targetPlayerId);
@@ -98,7 +92,7 @@ const AddStatsForm = ({ onSuccess }) => {
   };
 
   const handleSubmit = async (e) => {
-    // the reason we let the user input the points is we want user to be understand what
+    // the reason we let the user enter the points is user experience
 
     e.preventDefault();
     setError('');
@@ -202,9 +196,7 @@ const AddStatsForm = ({ onSuccess }) => {
           required
         >
           {games.map((game) => (
-            // Ensure game properties exist before rendering
             <MenuItem key={game.id} value={game.id}>
-              {/* Robust rendering: check properties exist */}
               {game.date} - {game.homeTeamName || 'Unknown Home'} vs {game.awayTeamName || 'Unknown Away'}
             </MenuItem>
           ))}

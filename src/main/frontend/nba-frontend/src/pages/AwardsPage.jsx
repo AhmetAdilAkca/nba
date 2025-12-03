@@ -1,3 +1,5 @@
+// This page displays the season awards and historical accolades.
+// It fetches award winners based on the selected award type (MVP, DPOY, etc.).
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getAwardWinners } from '../services/api';

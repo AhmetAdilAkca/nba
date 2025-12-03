@@ -1,3 +1,5 @@
+// This component displays the specific details of a game, including scores and team info.
+// It fetches game data and related stats to show a comprehensive view.
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';

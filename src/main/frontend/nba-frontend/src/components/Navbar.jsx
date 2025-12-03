@@ -1,3 +1,5 @@
+// This component renders the top navigation bar, handling routing links and responsive menu behavior.
+// It also manages user session display (login/logout) and admin access links.
 import React from 'react';
 import { AppBar, Toolbar, Typography, Button, Box, Container, Menu, MenuItem } from '@mui/material';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';

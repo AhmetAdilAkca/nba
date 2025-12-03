@@ -1,3 +1,5 @@
+// This page displays all teams in the league, organized by their respective divisions.
+// It serves as a directory to navigate to individual team pages.
 import React, { useEffect, useState } from 'react';
 import {
   Container, Grid, Typography, Box, Card, CardContent, CardActions, Button, CircularProgress, Alert, IconButton
@@ -44,7 +46,6 @@ const Teams = () => {
     );
   }
 
-  // Group teams by division
   const teamsByDivision = teams.reduce((acc, team) => {
     const division = team.divisionName || 'Other';
     if (!acc[division]) acc[division] = [];
@@ -52,7 +53,6 @@ const Teams = () => {
     return acc;
   }, {});
 
-  // Define conference structure
   const conferences = {
     East: ['Atlantic', 'Central', 'Southeast'],
     West: ['Northwest', 'Pacific', 'Southwest']

@@ -1,12 +1,12 @@
+// This page acts as the main landing page, aggregating key statistics, standings, and recent activity.
+// It serves as the central hub for users to get a quick overview of the league.
 import React, { useEffect, useState } from 'react';
 import {
   Container, Grid, Paper, Typography, Box, Card, CardContent, CircularProgress, Alert, Button
 } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
 import { getStandings, getRecentGames, getAllSeasons } from '../services/api';
 import LeadersSection from '../components/LeadersSection';
 import AdvancedAnalysisModal from '../components/AdvancedAnalysisModal';
-import { getTeamLogo } from '../utils/logoMapper';
 
 const Dashboard = () => {
   const [standings, setStandings] = useState([]);
@@ -21,7 +21,6 @@ const Dashboard = () => {
       try {
         const seasons = await getAllSeasons();
         if (seasons && seasons.length > 0) {
-          // Sort by ID descending to get latest
           const sorted = [...seasons].sort((a, b) => b.id - a.id);
           setSeasonId(sorted[0].id);
         }
@@ -40,13 +39,9 @@ const Dashboard = () => {
           getRecentGames()
         ]);
 
-        // Debug: log raw responses to help diagnose empty/invalid payloads
-        // eslint-disable-next-line no-console
         console.log('Dashboard: standingsData=', standingsData);
-        // eslint-disable-next-line no-console
         console.log('Dashboard: gamesData=', gamesData);
 
-        // Defensive assignment: ensure components always receive arrays
         const normalizedStandings = Array.isArray(standingsData)
           ? standingsData
           : (standingsData && Array.isArray(standingsData.data) ? standingsData.data : []);
@@ -90,14 +85,11 @@ const Dashboard = () => {
     },
   ];
 
-  // Add unique ID for DataGrid if not present in data
   const rows = standings.map((team, index) => {
-    // team object may come in different shapes; normalize team name and numeric fields
     const teamName = team.teamName || team.name || '';
     const wins = typeof team.wins === 'number' ? team.wins : Number(team.wins) || 0;
     const losses = typeof team.losses === 'number' ? team.losses : Number(team.losses) || 0;
 
-    // Calculate win percentage directly from wins and losses for consistency
     let winPct = 0;
     if (wins + losses > 0) {
       winPct = wins / (wins + losses);
@@ -108,7 +100,6 @@ const Dashboard = () => {
       wins,
       losses,
       winPct,
-      // keep original for debugging if needed
       _raw: team,
     };
   });
@@ -149,7 +140,6 @@ const Dashboard = () => {
       />
 
       <Grid container spacing={3}>
-        {/* Recent Games Section */}
         <Grid item xs={12}>
           <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
             <Typography component="h2" variant="h6" color="primary" gutterBottom>

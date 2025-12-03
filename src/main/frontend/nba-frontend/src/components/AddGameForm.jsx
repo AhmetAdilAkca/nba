@@ -1,3 +1,5 @@
+// This component handles the form submission for creating new game records.
+// It fetches teams and seasons to populate dropdowns and sends the game data to the backend.
 import React, { useState, useEffect } from 'react';
 import { Box, Button, TextField, Typography, Alert, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 import { getAllTeams, getAllSeasons, createGame } from '../services/api';

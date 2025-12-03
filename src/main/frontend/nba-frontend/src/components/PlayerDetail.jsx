@@ -1,3 +1,5 @@
+// This component shows detailed information about a single player.
+// It fetches player details and their stats to display on the page.
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';

@@ -1,3 +1,5 @@
+// This page serves as the administrative dashboard for managing teams, players, and games.
+// It provides forms for creating new entities and lists for managing existing ones.
 import React, { useState, useEffect } from 'react';
 import {
   Container, Typography, Box, Tabs, Tab, TextField, Button,
@@ -206,7 +208,7 @@ const CreateRosterForm = ({ onSuccess }) => {
     try {
       await createRoster(formData);
       onSuccess('Roster entry created successfully!');
-      setFormData({ ...formData, playerId: '', jerseyNumber: '', position: '' }); // Keep team/season selected
+      setFormData({ ...formData, playerId: '', jerseyNumber: '', position: '' });
     } catch (error) {
       onSuccess('Failed to add to roster: ' + error.message, 'error');
     }

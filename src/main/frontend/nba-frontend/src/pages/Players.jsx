@@ -1,3 +1,5 @@
+// This page is the main directory for players, featuring search and filtering functionality.
+// It allows users to browse all players and manage their favorites.
 import React, { useEffect, useState } from 'react';
 import {
   Container, Grid, Typography, Box, Card, CardContent, CardActions, Button, CircularProgress, Alert, TextField, IconButton
@@ -16,7 +18,6 @@ const Players = () => {
   const [favorites, setFavorites] = useState(new Set());
   const { user } = useAuth();
 
-  // Verileri çekme (Fetch) işlemi
   useEffect(() => {
     const fetchPlayersAndFavorites = async () => {
       try {
@@ -41,14 +42,13 @@ const Players = () => {
     fetchPlayersAndFavorites();
   }, [user]);
 
-  // Arama filtresi
   const filteredPlayers = players.filter(player =>
     player.playerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
     (player.playerSurname && player.playerSurname.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   const handleToggleFavorite = async (playerId) => {
-    if (!user) return; // Kullanıcı giriş yapmamışsa işlem yapma
+    if (!user) return;
 
     try {
       if (favorites.has(playerId)) {
@@ -108,12 +108,10 @@ const Players = () => {
         />
       </Box>
 
-      {/* Grid ve Kartlar (Liste) */}
       <Grid container spacing={3}>
         {filteredPlayers.map((player) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={player.id}>
             <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', borderRadius: 2, transition: '0.3s', '&:hover': { boxShadow: 6 } }}>
-              {/* Player Image */}
               <Box sx={{ height: 200, overflow: 'hidden', bgcolor: '#f5f5f5', display: 'flex', justifyContent: 'center', alignItems: 'flex-end', pt: 2 }}>
                 <img
                   src={`/nba_players/${player.playerName}_${player.playerSurname}.png`}

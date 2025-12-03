@@ -1,3 +1,5 @@
+// This component renders a list of games, often used within other pages like the Dashboard or Games page.
+// It provides a simple overview of recent or upcoming matches.
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';

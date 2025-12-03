@@ -1,3 +1,5 @@
+// This component renders a modal dialog to display complex statistical analysis and projections.
+// It allows users to switch between different analysis types like Season Stats, Triple Doubles, etc.
 import React, { useState, useEffect } from 'react';
 import {
   Dialog, DialogTitle, DialogContent, DialogActions, Button,
